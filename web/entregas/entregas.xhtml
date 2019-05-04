@@ -1,0 +1,80 @@
+<ui:composition template="/templates/mastertemplate.xhtml"                 
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="corpo">
+        <p:panel style="margin: 0 auto; width: 70%"
+                 header="Calculo de rotas para Entrega">
+            <h:form>
+                <p:outputLabel value="Ponto de Partida" 
+                               for="municipio"/>
+                <br />                
+                <p:selectOneMenu  value="#{calculoRotaBean.municipioPartida}"
+                                  id="municipio" filter="true" filterMatchMode="contains" 
+                                  required="true" requiredMessage="Selecione um ponto de partida">
+                    <f:selectItem itemLabel="Selecione um municipio" noSelectionOption="true" />
+                    <f:selectItems value="#{clienteBean.municipios}"
+                                   var="mun"
+                                   itemLabel="#{mun.descricao}"
+                                   itemValue="#{mun}"/>
+
+                </p:selectOneMenu>                
+
+
+                <p:separator />
+                <p:commandButton value="Montar rota de entrega" 
+                                 actionListener="#{calculoRotaBean.montarRota()}"
+                                 update="@all" />
+            </h:form>
+        </p:panel>     
+
+        <h:form>
+            <br />
+            <p:panel style="margin: 0 auto; width: 90%; align-self: center"
+                     header="Cestas Pendentes para Entrega">
+                <p:dataTable value="#{calculoRotaBean.cestas}" 
+                             id="listaCestas" 
+                             var="l"
+                             emptyMessage="Sem Cestas Pendentes">
+
+                    <p:column headerText="Id">
+                        <h:outputText value="#{l.id}"/>
+                    </p:column>
+
+                    <p:column headerText="Cliente">
+                        <h:outputText value="#{l.cliente.nome}"/>
+                    </p:column>                   
+
+                    <p:column headerText="Municipio">
+                        <h:outputText value="#{l.cliente.municipio.descricao}"/>
+                    </p:column>                  
+
+                    <p:column headerText="Valor">
+                        <h:outputText value="#{l.valor}"/>
+                    </p:column>                  
+
+                </p:dataTable> 
+            </p:panel >
+        </h:form>
+
+        <h:form>
+            <br />
+            <p:panel style="margin: 0 auto; width: 30%; align-self: center"
+                     header="Cestas Pendentes para Entrega">
+                <p:dataTable value="#{calculoRotaBean.roteiro.enderecos}" 
+                             id="pontos" 
+                             var="p"
+                             emptyMessage="Rota não definida"
+                             sortMode="">
+
+                    <p:column headerText="Cidades">
+                        <h:outputText value="#{p.descricao}"/>
+                    </p:column>                                   
+                    
+                </p:dataTable> 
+            </p:panel >
+        </h:form>
+    </ui:define>
+</ui:composition>

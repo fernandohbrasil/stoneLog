@@ -1,0 +1,53 @@
+<ui:composition template="/templates/mastertemplate.xhtml" 
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="corpo">
+        <p:panel style="margin: 0 auto; width: 90%"
+                 header="Categoria">
+            <h:form>
+                <p:outputLabel value="Nome" 
+                               for="categoria"/>
+                <br />
+                <p:inputText id="categoria" 
+                             value="#{categoriaBean.categoria.descricao}" />
+
+                <p:separator />
+                <p:commandButton value="Salvar" 
+                                 actionListener="#{categoriaBean.salvar()}"
+                                 update="@all"/>               
+            </h:form>
+        </p:panel> 
+
+        <br />
+        <p:separator />
+        <br />
+        <p:panel style="margin: 0 auto; width: 90%; align-self: center"
+                 header="Todas as Categorias">
+            <p:dataTable value="#{categoriaBean.categorias}" 
+                         id="listaCategorias" 
+                         var="c" 
+                         emptyMessage="Sem Categorias">
+
+                <p:column headerText="Id">
+                    <h:outputText value="#{c.id}"/>
+                </p:column>
+
+                <p:column headerText="Descricao">
+                    <h:outputText value="#{c.descricao}"/>
+                </p:column>                   
+
+                <p:column style="width: 25px">
+                    <h:form>
+                        <p:commandButton icon="ui-icon-pencil"
+                                         title="Editar" ajax="false"
+                                         actionListener="#{categoriaBean.alterar(c)}"/>                        
+                    </h:form>                        
+                </p:column>                   
+            </p:dataTable> 
+        </p:panel >
+
+    </ui:define>
+</ui:composition>
